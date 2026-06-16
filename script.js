@@ -18,7 +18,10 @@ const viewFlashcard = document.getElementById("flashcard-view");
 // Fetch languages list
 async function init() {
     try {
-        const res = await fetch("../data/index.json").catch(() => fetch("data/index.json"));
+        let res = await fetch("data/index.json").catch(() => null);
+        if (!res || !res.ok) {
+            res = await fetch("../data/index.json").catch(() => null);
+        }
         if (!res || !res.ok) throw new Error("Could not load index.json");
         const data = await res.json();
         
@@ -44,7 +47,10 @@ async function loadLanguage(lang) {
     currentLanguage = lang;
     const filename = lang.toLowerCase().replace(/ /g, "_") + ".json";
     try {
-        const res = await fetch(`../data/${filename}`).catch(() => fetch(`data/${filename}`));
+        let res = await fetch(`data/${filename}`).catch(() => null);
+        if (!res || !res.ok) {
+            res = await fetch(`../data/${filename}`).catch(() => null);
+        }
         if (!res || !res.ok) throw new Error("Could not load vocab data");
         const data = await res.json();
         vocabularies = data.vocabularies || [];
