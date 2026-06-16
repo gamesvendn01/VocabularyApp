@@ -1,0 +1,23 @@
+{
+  "vocabularies": [
+    {
+      "id": 1,
+      "word": "おはようございます",
+      "pronunciation": "Ohayou gozaimasu",
+      "meaning": "Chào buổi sáng",
+      "example": "",
+      "example_meaning": "",
+      "word_type": "Khác",
+      "topic": "Chào hỏi",
+      "date_tag": "Ngày 1",
+      "mp3_local_path": "",
+      "mp3_gdrive_id": "",
+      "mp4_local_path": "",
+      "mp4_gdrive_id": "",
+      "note": "",
+      "created_at": "2026-06-16T23:28:04",
+      "updated_at": "2026-06-16T23:28:04"
+    }
+  ],
+  "last_updated": "2026-06-16T23:28:04"
+}
