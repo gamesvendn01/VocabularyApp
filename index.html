@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vocabulary App</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <h1>📚 Vocabulary</h1>
+            <select id="language-select">
+                <option value="">Loading...</option>
+            </select>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search word, meaning...">
+        </div>
+        <div class="filters">
+            <select id="filter-topic"><option value="">All Topics</option></select>
+            <select id="filter-type"><option value="">All Types</option></select>
+            <select id="filter-date"><option value="">All Dates</option></select>
+        </div>
+        <div class="view-toggles">
+            <button id="btn-list" class="active">List View</button>
+            <button id="btn-flashcard">Flashcards</button>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <!-- List View -->
+        <div id="list-view" class="view-container active">
+            <div id="vocab-list"></div>
+        </div>
+
+        <!-- Flashcard View -->
+        <div id="flashcard-view" class="view-container">
+            <div class="flashcard-container">
+                <div id="flashcard" class="flashcard">
+                    <div class="front">
+                        <h2 id="fc-word">Word</h2>
+                        <p id="fc-pronunciation" class="pronunciation">Pronunciation</p>
+                        <span id="fc-type" class="badge">Type</span>
+                    </div>
+                    <div class="back">
+                        <h2 id="fc-meaning">Meaning</h2>
+                        <div class="example-box">
+                            <p id="fc-example">Example</p>
+                            <p id="fc-example-meaning" class="muted">Example meaning</p>
+                        </div>
+                        <div class="audio-box" id="fc-audio-box" style="display:none;">
+                            <button id="btn-play-audio" class="play-btn">🔊 Play Audio</button>
+                            <audio id="fc-audio" src=""></audio>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flashcard-controls">
+                <button id="btn-prev">⬅️ Prev</button>
+                <span id="fc-counter">1 / 10</span>
+                <button id="btn-next">Next ➡️</button>
+            </div>
+            <button id="btn-flip" class="flip-btn">Flip Card</button>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
