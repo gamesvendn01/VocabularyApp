@@ -15,6 +15,22 @@ const btnFlashcard = document.getElementById("btn-flashcard");
 const viewList = document.getElementById("list-view");
 const viewFlashcard = document.getElementById("flashcard-view");
 
+// ─── Helper: escape HTML để an toàn khi dùng innerHTML ───────────────────────
+function escapeHtml(str) {
+    if (!str) return "";
+    return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+}
+
+// ─── Helper: chuyển \n → <br> và escape HTML ─────────────────────────────────
+function formatText(str) {
+    if (!str) return "";
+    return escapeHtml(str).replace(/\n/g, "<br>");
+}
+
 // Fetch languages list
 async function init() {
     try {
@@ -74,9 +90,9 @@ function populateFilters() {
         if(v.date_tag) dates.add(v.date_tag);
     });
     
-    filterTopic.innerHTML = '<option value="">All Topics</option>' + Array.from(topics).map(t => `<option value="${t}">${t}</option>`).join("");
-    filterType.innerHTML = '<option value="">All Types</option>' + Array.from(types).map(t => `<option value="${t}">${t}</option>`).join("");
-    filterDate.innerHTML = '<option value="">All Dates</option>' + Array.from(dates).map(t => `<option value="${t}">${t}</option>`).join("");
+    filterTopic.innerHTML = '<option value="">All Topics</option>' + Array.from(topics).map(t => `<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`).join("");
+    filterType.innerHTML  = '<option value="">All Types</option>'  + Array.from(types).map(t => `<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`).join("");
+    filterDate.innerHTML  = '<option value="">All Dates</option>'  + Array.from(dates).map(t => `<option value="${escapeHtml(t)}">${escapeHtml(t)}</option>`).join("");
 }
 
 function applyFilters() {
@@ -104,74 +120,97 @@ function applyFilters() {
 function renderList() {
     listContainer.innerHTML = "";
     if (filteredVocabs.length === 0) {
-        listContainer.innerHTML = "<p>No vocabulary found matching filters.</p>";
+        listContainer.innerHTML = "<p style='color:var(--text-muted);padding:20px;text-align:center;'>Không tìm thấy từ vựng nào phù hợp.</p>";
         return;
     }
     
-    filteredVocabs.forEach(v => {
+    filteredVocabs.forEach((v, idx) => {
         const item = document.createElement("div");
         item.className = "vocab-item";
+
+        const hasExample = v.example && v.example.trim() !== "";
+
         item.innerHTML = `
             <div class="vocab-header">
                 <div>
-                    <div class="vocab-word">${v.word}</div>
-                    <div class="vocab-pronunciation">${v.pronunciation}</div>
+                    <div class="vocab-word">${escapeHtml(v.word)}</div>
+                    ${v.pronunciation ? `<div class="vocab-pronunciation">/${escapeHtml(v.pronunciation)}/</div>` : ""}
                 </div>
-                ${v.word_type ? `<span class="badge">${v.word_type}</span>` : ""}
+                ${v.word_type ? `<span class="badge">${escapeHtml(v.word_type)}</span>` : ""}
             </div>
-            <div class="vocab-meaning">${v.meaning}</div>
-            ${v.example ? `
-            <div class="vocab-example">
-                <div>${v.example}</div>
-                <div class="vocab-example-meaning">${v.example_meaning}</div>
+            <div class="vocab-meaning">${formatText(v.meaning)}</div>
+            ${hasExample ? `
+            <button class="toggle-example-btn" data-idx="${idx}" data-open="false">📖 Xem ví dụ</button>
+            <div class="vocab-example" id="example-block-${idx}" style="display:none; margin-top:8px;">
+                ${formatText(v.example)}
+                ${v.example_meaning ? `<div class="vocab-example-meaning">${formatText(v.example_meaning)}</div>` : ""}
             </div>` : ""}
         `;
         listContainer.appendChild(item);
     });
+
+    // Gán sự kiện toggle ví dụ
+    listContainer.querySelectorAll(".toggle-example-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+            const idx = this.dataset.idx;
+            const block = document.getElementById(`example-block-${idx}`);
+            const isOpen = this.dataset.open === "true";
+            if (isOpen) {
+                block.style.display = "none";
+                this.textContent = "📖 Xem ví dụ";
+                this.dataset.open = "false";
+            } else {
+                block.style.display = "block";
+                this.textContent = "🔼 Ẩn ví dụ";
+                this.dataset.open = "true";
+            }
+        });
+    });
 }
 
-// Flashcard logic
-const fcCard = document.getElementById("flashcard");
-const fcWord = document.getElementById("fc-word");
-const fcPron = document.getElementById("fc-pronunciation");
-const fcType = document.getElementById("fc-type");
-const fcMean = document.getElementById("fc-meaning");
-const fcEx = document.getElementById("fc-example");
-const fcExMean = document.getElementById("fc-example-meaning");
+// ─── Flashcard logic ──────────────────────────────────────────────────────────
+const fcCard    = document.getElementById("flashcard");
+const fcWord    = document.getElementById("fc-word");
+const fcPron    = document.getElementById("fc-pronunciation");
+const fcType    = document.getElementById("fc-type");
+const fcMean    = document.getElementById("fc-meaning");
+const fcEx      = document.getElementById("fc-example");
+const fcExMean  = document.getElementById("fc-example-meaning");
 const fcCounter = document.getElementById("fc-counter");
 const fcAudioBox = document.getElementById("fc-audio-box");
-const fcAudio = document.getElementById("fc-audio");
+const fcAudio   = document.getElementById("fc-audio");
 const btnPlayAudio = document.getElementById("btn-play-audio");
 
 function renderFlashcard() {
     fcCard.classList.remove("is-flipped");
     if (filteredVocabs.length === 0) {
-        fcWord.textContent = "No cards";
+        fcWord.textContent = "Không có thẻ";
         fcPron.textContent = "";
         fcType.textContent = "";
-        fcMean.textContent = "Try changing filters";
-        fcEx.textContent = "";
-        fcExMean.textContent = "";
+        fcMean.innerHTML = "Hãy thử thay đổi bộ lọc";
+        fcEx.innerHTML   = "";
+        fcExMean.innerHTML = "";
         fcCounter.textContent = "0 / 0";
         fcAudioBox.style.display = "none";
         return;
     }
     
     const v = filteredVocabs[flashcardIndex];
+
+    // Mặt trước
     fcWord.textContent = v.word;
-    fcPron.textContent = v.pronunciation;
-    fcType.textContent = v.word_type || "No type";
-    
-    fcMean.textContent = v.meaning;
-    fcEx.textContent = v.example || "No example provided.";
-    fcExMean.textContent = v.example_meaning || "";
-    
+    fcPron.textContent = v.pronunciation ? `/${v.pronunciation}/` : "";
+    fcType.textContent = v.word_type || "";
+
+    // Mặt sau — dùng innerHTML để hiện \n thành xuống dòng
+    fcMean.innerHTML   = formatText(v.meaning) || "<em style='color:var(--text-muted)'>Chưa có nghĩa</em>";
+    fcEx.innerHTML     = formatText(v.example) || "<em style='color:var(--text-muted)'>Chưa có ví dụ</em>";
+    fcExMean.innerHTML = formatText(v.example_meaning) || "";
+
     fcCounter.textContent = `${flashcardIndex + 1} / ${filteredVocabs.length}`;
 
     if (v.mp3_gdrive_id) {
         fcAudioBox.style.display = "block";
-        // To play audio from gdrive, we use google apis or just drive link.
-        // Google Drive direct link for audio:
         fcAudio.src = `https://docs.google.com/uc?export=download&id=${v.mp3_gdrive_id}`;
     } else {
         fcAudioBox.style.display = "none";
@@ -202,11 +241,11 @@ document.getElementById("btn-next").addEventListener("click", () => {
 });
 
 btnPlayAudio.addEventListener("click", (e) => {
-    e.stopPropagation(); // prevent card flip
+    e.stopPropagation();
     fcAudio.play();
 });
 
-// Event Listeners
+// ─── Event Listeners ──────────────────────────────────────────────────────────
 langSelect.addEventListener("change", (e) => loadLanguage(e.target.value));
 searchInput.addEventListener("input", applyFilters);
 filterTopic.addEventListener("change", applyFilters);
@@ -225,7 +264,7 @@ btnFlashcard.addEventListener("click", () => {
     btnList.classList.remove("active");
     viewFlashcard.classList.add("active");
     viewList.classList.remove("active");
-    renderFlashcard(); // re-render to ensure it's at correct index
+    renderFlashcard();
 });
 
 // Init
