@@ -35,7 +35,25 @@
       "note": "",
       "created_at": "2026-06-18T21:57:31",
       "updated_at": "2026-06-18T21:57:31"
+    },
+    {
+      "id": 3,
+      "word": "と",
+      "pronunciation": "to",
+      "meaning": "1. Nghĩa dịch đơn lẻ của と\nKhi đứng một mình để nối các từ hoặc định hình hành động, と thường được dịch là: \"Và\", \"Với\", \"Rằng/Là\", hoặc \"Hễ/Nếu... thì\".\n2. Các từ thường đi chung với と\nDanh từ + と + Danh từ: Khi muốn liệt kê (A và B).\n\nDanh từ (Chỉ người/động vật) + と + Động từ hành động: Làm gì đó cùng ai (với ai).\n\nĐộng từ thể từ điển (Thể る) + と: Diễn tả mối quan hệ nguyên nhân - kết quả (Hễ... thì).\n\nCác động từ biểu đạt suy nghĩ, lời nói:\n\n言います (iimasu): Nói là...\n\n思います (omoimasu): Nghĩ là...\n\n書きます (kakimasu): Viết là...",
+      "example": "3. Các mẫu câu hay gặp dùng と\nMẫu 1: Dùng để liệt kê toàn bộ (\"Và\")\nCấu trúc: Danh từ 1 + と + Danh từ 2 (Liệt kê hết tất cả các vật được nhắc đến)\n\n机の上に本とペンがあります。\n(Tsukue no ue ni hon to pen ga arimasu.)\n-> Trên bàn có sách và bút mực.\n\n日本語と英語を勉強しています。\n(Nihongo to Eigo o benkyou shite imasu.)\n-> Tôi đang học tiếng Nhật và tiếng Anh.\n\nMẫu 2: Diễn tả hành động cùng ai đó (\"Với\")\nCấu trúc: Danh từ (Người) + と + Động từ\nĐể nhấn mạnh chữ \"cùng nhau\", người ta thường thêm chữ 一緒に (issho ni) vào sau と.\n\n友達と映画を見ました。\n(Tomodachi to eiga o mimashita.)\n-> Tôi đã xem phim với bạn.\n\n家族と一緒に住んでいますbox。\n(Kazoku to issho ni sunde imasu.)\n-> Tôi đang sống cùng với gia đình.\n\nMẫu 3: Dùng để trích dẫn lời nói, suy nghĩ (\"Rằng / Là\")\nCấu trúc: [Câu trích dẫn / Thể thông thường] + と + 言います / 思います\n\n田中さんは「明日休む」と言いました。\n(Tanaka-san wa \"Ashita yasumu\" to iimashita.)\n-> Anh Tanaka đã nói là \"Ngày mai tôi nghỉ\".\n\n明日は雨が降ると思いますbox。\n(Ashita wa ame ga furu to omoimasu.)\n-> Tôi nghĩ rằng ngày mai trời sẽ mưa.\n\nMẫu 4: Diễn tả điều kiện tự nhiên, tất yếu (\"Hễ... thì / Nếu... thì\")\nCấu trúc: Động từ thể từ điển (V-ru) + と、[Vế 2]\nVế 2 thường là một kết quả hiển nhiên, tự nhiên xảy ra.\n\nこのボタンを押すと、水が出ます。\n(Kono botan o osu to, mizu ga demasu.)\n-> Hễ ấn cái nút này thì nước sẽ chảy ra.\n\n春になるとbox、桜が咲きます。\n(Haru ni naru to, sakura ga sakimasu.)\n-> Nếu sang xuân thì hoa anh đào sẽ nở.",
+      "example_meaning": "",
+      "word_type": "",
+      "topic": "Chữ cái cơ bản(hiragana)",
+      "date_tag": "Ngày 1",
+      "mp3_local_path": "",
+      "mp3_gdrive_id": "",
+      "mp4_local_path": "",
+      "mp4_gdrive_id": "",
+      "note": "",
+      "created_at": "2026-06-18T22:24:31",
+      "updated_at": "2026-06-18T22:24:31"
     }
   ],
-  "last_updated": "2026-06-18T21:57:31"
+  "last_updated": "2026-06-18T22:24:31"
 }
