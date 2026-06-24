@@ -156,11 +156,11 @@ main {
     flex-shrink: 0;
 }
 
-/* Nghĩa — pre-wrap để hiện xuống dòng đúng */
+/* Nghĩa — dùng Markdown */
 .vocab-meaning {
     font-size: 1rem;
+    font-family: Consolas, "Courier New", monospace;
     margin-bottom: 10px;
-    white-space: pre-wrap;
     word-break: break-word;
     line-height: 1.7;
     color: var(--text-main);
@@ -172,7 +172,7 @@ main {
     padding: 12px 15px;
     border-radius: 8px;
     font-size: 0.88rem;
-    white-space: pre-wrap;
+    font-family: Consolas, "Courier New", monospace;
     word-break: break-word;
     line-height: 1.7;
     max-height: 280px;
@@ -191,7 +191,6 @@ main {
 .vocab-example-meaning {
     color: var(--text-muted);
     margin-top: 8px;
-    white-space: pre-wrap;
     word-break: break-word;
 }
 
@@ -271,11 +270,11 @@ main {
     border-radius: 4px;
 }
 
-/* Nghĩa trên flashcard — pre-wrap */
+/* Nghĩa trên flashcard — Markdown */
 .fc-meaning-text {
     font-size: 1.15rem;
+    font-family: Consolas, "Courier New", monospace;
     color: var(--text-main);
-    white-space: pre-wrap;
     word-break: break-word;
     text-align: left;
     width: 100%;
@@ -307,9 +306,9 @@ main {
 }
 
 .flashcard .example-box p {
-    white-space: pre-wrap;
     word-break: break-word;
     font-size: 0.88rem;
+    font-family: Consolas, "Courier New", monospace;
     line-height: 1.7;
     color: var(--text-main);
 }
@@ -390,4 +389,39 @@ main {
 ::-webkit-scrollbar-thumb {
     background: var(--border);
     border-radius: 4px;
+}
+
+/* ═══════════════════════════════════════════
+   Markdown Table Styling
+═══════════════════════════════════════════ */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    background-color: var(--card-bg-alt);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    background-color: var(--card-bg);
+    color: var(--accent);
+    font-weight: 600;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+.vocab-meaning p, .vocab-example p, .fc-meaning-text p {
+    margin-bottom: 10px;
+}
+.vocab-meaning p:last-child, .vocab-example p:last-child, .fc-meaning-text p:last-child {
+    margin-bottom: 0;
 }
