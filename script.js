@@ -25,10 +25,16 @@ function escapeHtml(str) {
         .replace(/"/g, "&quot;");
 }
 
-// ─── Helper: chuyển \n → <br> và escape HTML ─────────────────────────────────
+// ─── Cấu hình Marked.js để hỗ trợ Markdown Table và Line breaks ──────────────────
+marked.setOptions({
+    breaks: true,
+    gfm: true
+});
+
+// ─── Helper: parse Markdown thay vì chỉ replace \n ───────────────────────────
 function formatText(str) {
     if (!str) return "";
-    return escapeHtml(str).replace(/\n/g, "<br>");
+    return marked.parse(str);
 }
 
 // Fetch languages list
