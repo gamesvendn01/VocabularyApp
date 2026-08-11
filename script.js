@@ -275,3 +275,198 @@ btnFlashcard.addEventListener("click", () => {
 
 // Init
 init();
+
+// ─── Writing Practice Logic ───────────────────────────────────────────────────
+const btnPracticeWrite = document.getElementById("btn-practice-write");
+const writingModal = document.getElementById("writing-modal");
+const closeWritingModal = document.getElementById("close-writing-modal");
+const modeSelection = document.getElementById("writing-mode-selection");
+const hanziContainer = document.getElementById("hanzi-writer-container");
+const canvasContainer = document.getElementById("canvas-writer-container");
+
+const btnModeHanzi = document.getElementById("btn-mode-hanzi");
+const btnModeCanvas = document.getElementById("btn-mode-canvas");
+
+let writer = null;
+let currentHanziChars = [];
+let currentHanziIndex = 0;
+
+// Canvas vars
+const scratchCanvas = document.getElementById("scratch-canvas");
+const ctx = scratchCanvas.getContext("2d");
+let isDrawing = false;
+let lastX = 0;
+let lastY = 0;
+
+if (btnPracticeWrite) {
+    btnPracticeWrite.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (filteredVocabs.length === 0) return;
+        writingModal.style.display = "flex";
+        modeSelection.style.display = "flex";
+        hanziContainer.style.display = "none";
+        canvasContainer.style.display = "none";
+    });
+}
+
+closeWritingModal.addEventListener("click", () => {
+    writingModal.style.display = "none";
+    if (writer) {
+        writer.cancelQuiz();
+        document.getElementById("hanzi-target").innerHTML = "";
+        writer = null;
+    }
+});
+
+// 1. Hanzi Mode
+btnModeHanzi.addEventListener("click", () => {
+    const word = fcWord.textContent;
+    currentHanziChars = word.replace(/\s+/g, '').split('');
+    
+    if (currentHanziChars.length === 0) {
+        alert("Từ vựng trống!");
+        return;
+    }
+
+    modeSelection.style.display = "none";
+    hanziContainer.style.display = "block";
+    currentHanziIndex = 0;
+    renderHanziWriter();
+});
+
+function renderHanziWriter() {
+    document.getElementById("hanzi-target").innerHTML = "";
+    document.getElementById("hanzi-char-indicator").textContent = `${currentHanziIndex + 1}/${currentHanziChars.length}`;
+    
+    const char = currentHanziChars[currentHanziIndex];
+    HanziWriter.loadCharacterData(char).then(function(charData) {
+        writer = HanziWriter.create('hanzi-target', char, {
+            width: 250,
+            height: 250,
+            padding: 5,
+            strokeAnimationSpeed: 1,
+            delayBetweenStrokes: 50,
+            showOutline: true,
+            showCharacter: false,
+            outlineColor: '#e0e0e0',
+            drawingColor: '#333333',
+            drawingWidth: 15
+        });
+        
+        writer.quiz({
+            onMistake: function(strokeData) {
+                console.log("Mistake:", strokeData);
+            }
+        });
+    }).catch(function(error) {
+        document.getElementById('hanzi-target').innerHTML = `<p style='color:var(--text-main);text-align:center;margin-top:80px;font-size:18px;'>Ký tự <span style='font-size:30px;color:var(--accent);'>${char}</span><br><br>Không được hệ thống<br>hỗ trợ chấm điểm!</p>`;
+        writer = null;
+    });
+}
+
+document.getElementById("btn-hanzi-prev").addEventListener("click", () => {
+    if (currentHanziIndex > 0) {
+        currentHanziIndex--;
+        if(writer) writer.cancelQuiz();
+        renderHanziWriter();
+    }
+});
+
+document.getElementById("btn-hanzi-next").addEventListener("click", () => {
+    if (currentHanziIndex < currentHanziChars.length - 1) {
+        currentHanziIndex++;
+        if(writer) writer.cancelQuiz();
+        renderHanziWriter();
+    }
+});
+
+// 2. Canvas Mode
+let currentCanvasChars = [];
+let currentCanvasIndex = 0;
+
+btnModeCanvas.addEventListener("click", () => {
+    modeSelection.style.display = "none";
+    canvasContainer.style.display = "block";
+    
+    const word = fcWord.textContent;
+    currentCanvasChars = word.replace(/\s+/g, '').split('');
+    currentCanvasIndex = 0;
+    
+    renderCanvasWriter();
+});
+
+function renderCanvasWriter() {
+    const bgText = document.getElementById("canvas-bg-text");
+    bgText.textContent = currentCanvasChars[currentCanvasIndex] || "";
+    bgText.style.fontSize = "200px";
+    document.getElementById("canvas-char-indicator").textContent = `${currentCanvasIndex + 1}/${currentCanvasChars.length}`;
+    clearCanvas();
+}
+
+document.getElementById("btn-canvas-prev").addEventListener("click", () => {
+    if (currentCanvasIndex > 0) {
+        currentCanvasIndex--;
+        renderCanvasWriter();
+    }
+});
+
+document.getElementById("btn-canvas-next").addEventListener("click", () => {
+    if (currentCanvasIndex < currentCanvasChars.length - 1) {
+        currentCanvasIndex++;
+        renderCanvasWriter();
+    }
+});
+
+document.getElementById("btn-canvas-clear").addEventListener("click", clearCanvas);
+
+function clearCanvas() {
+    ctx.clearRect(0, 0, scratchCanvas.width, scratchCanvas.height);
+}
+
+function getPos(e) {
+    const rect = scratchCanvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    return {
+        x: clientX - rect.left,
+        y: clientY - rect.top
+    };
+}
+
+function startDrawing(e) {
+    e.preventDefault();
+    isDrawing = true;
+    const pos = getPos(e);
+    lastX = pos.x;
+    lastY = pos.y;
+}
+
+function draw(e) {
+    if (!isDrawing) return;
+    e.preventDefault();
+    const pos = getPos(e);
+    
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.strokeStyle = "#333333";
+    ctx.lineWidth = 8;
+    ctx.lineCap = "round";
+    ctx.stroke();
+    
+    lastX = pos.x;
+    lastY = pos.y;
+}
+
+function stopDrawing() {
+    isDrawing = false;
+}
+
+scratchCanvas.addEventListener("mousedown", startDrawing);
+scratchCanvas.addEventListener("mousemove", draw);
+scratchCanvas.addEventListener("mouseup", stopDrawing);
+scratchCanvas.addEventListener("mouseout", stopDrawing);
+
+scratchCanvas.addEventListener("touchstart", startDrawing, {passive: false});
+scratchCanvas.addEventListener("touchmove", draw, {passive: false});
+scratchCanvas.addEventListener("touchend", stopDrawing);
