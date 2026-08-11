@@ -63,11 +63,51 @@
                 <span id="fc-counter">1 / 10</span>
                 <button id="btn-next">Next ➡️</button>
             </div>
-            <button id="btn-flip" class="flip-btn">Flip Card</button>
+            <div class="flashcard-actions" style="display:flex; justify-content:center; gap:10px; margin-top:10px;">
+                <button id="btn-flip" class="flip-btn" style="flex:1;">Flip Card</button>
+                <button id="btn-practice-write" class="flip-btn" style="flex:1; background-color: var(--success); color: var(--bg-color);">✏️ Luyện viết</button>
+            </div>
         </div>
     </main>
+    <!-- Writing Practice Modal -->
+    <div id="writing-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span id="close-writing-modal" class="close-btn">&times;</span>
+            <h3 id="writing-modal-title">Luyện viết</h3>
+            
+            <div id="writing-mode-selection" class="writing-modes">
+                <button id="btn-mode-hanzi" class="primary-btn">Luyện viết (Có chấm điểm)</button>
+                <button id="btn-mode-canvas" class="secondary-btn">Bảng nháp (Tự do)</button>
+            </div>
+
+            <div id="hanzi-writer-container" style="display:none;">
+                <div id="hanzi-target" class="writer-target"></div>
+                <div class="writer-controls">
+                    <button id="btn-hanzi-prev">⬅️</button>
+                    <span id="hanzi-char-indicator">1/1</span>
+                    <button id="btn-hanzi-next">➡️</button>
+                </div>
+                <div class="writer-hint">Hãy vẽ đè lên chữ mờ theo đúng thứ tự nét.</div>
+            </div>
+
+            <div id="canvas-writer-container" style="display:none;">
+                <div class="canvas-wrapper">
+                    <div id="canvas-bg-text" class="canvas-bg-text"></div>
+                    <canvas id="scratch-canvas" width="300" height="300"></canvas>
+                </div>
+                <div class="writer-controls">
+                    <button id="btn-canvas-prev">⬅️</button>
+                    <span id="canvas-char-indicator">1/1</span>
+                    <button id="btn-canvas-next">➡️</button>
+                    <button id="btn-canvas-clear" style="margin-left:10px;">Xóa bảng</button>
+                </div>
+                <div class="writer-hint">Bảng nháp tự do (Không kiểm tra nét).</div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
