@@ -63,9 +63,9 @@
                 <span id="fc-counter">1 / 10</span>
                 <button id="btn-next">Next ➡️</button>
             </div>
-            <div class="flashcard-actions" style="display:flex; justify-content:center; gap:10px; margin-top:10px;">
-                <button id="btn-flip" class="flip-btn" style="flex:1;">Flip Card</button>
-                <button id="btn-practice-write" class="flip-btn" style="flex:1; background-color: var(--success); color: var(--bg-color);">✏️ Luyện viết</button>
+            <div class="flashcard-actions">
+                <button id="btn-flip" class="flip-btn">Flip Card</button>
+                <button id="btn-practice-write" class="flip-btn write-btn">✏️ Luyện viết</button>
             </div>
         </div>
     </main>
@@ -76,38 +76,42 @@
             <h3 id="writing-modal-title">Luyện viết</h3>
             
             <div id="writing-mode-selection" class="writing-modes">
-                <button id="btn-mode-hanzi" class="primary-btn">Luyện viết (Có chấm điểm)</button>
-                <button id="btn-mode-canvas" class="secondary-btn">Bảng nháp (Tự do)</button>
+                <button id="btn-mode-hanzi" class="primary-btn">✏️ Có chấm điểm</button>
+                <button id="btn-mode-canvas" class="secondary-btn">🖊️ Bảng nháp (Tự do)</button>
             </div>
 
-            <div id="hanzi-writer-container" style="display:none;">
-                <div id="hanzi-target" class="writer-target"></div>
-                <div class="writer-controls">
-                    <button id="btn-hanzi-prev">⬅️</button>
-                    <span id="hanzi-char-indicator">1/1</span>
-                    <button id="btn-hanzi-next">➡️</button>
+            <!-- Unified pixel-scoring practice canvas -->
+            <div id="canvas-practice-container" style="display:none;">
+                <div class="practice-wrapper">
+                    <canvas id="ref-canvas" width="280" height="280" style="display:none;"></canvas>
+                    <canvas id="bg-canvas" width="280" height="280"></canvas>
+                    <canvas id="draw-canvas" width="280" height="280"></canvas>
                 </div>
-                <div class="writer-hint">Hãy vẽ đè lên chữ mờ theo đúng thứ tự nét.</div>
-            </div>
 
-            <div id="canvas-writer-container" style="display:none;">
-                <div class="canvas-wrapper">
-                    <div id="canvas-bg-text" class="canvas-bg-text"></div>
-                    <canvas id="scratch-canvas" width="300" height="300"></canvas>
-                </div>
                 <div class="writer-controls">
-                    <button id="btn-canvas-prev">⬅️</button>
-                    <span id="canvas-char-indicator">1/1</span>
-                    <button id="btn-canvas-next">➡️</button>
-                    <button id="btn-canvas-clear" style="margin-left:10px;">Xóa bảng</button>
+                    <button id="btn-char-prev">⬅️</button>
+                    <span id="char-indicator">1/1</span>
+                    <button id="btn-char-next">➡️</button>
+                    <button id="btn-clear-draw">🗑️ Xóa</button>
                 </div>
-                <div class="writer-hint">Bảng nháp tự do (Không kiểm tra nét).</div>
+
+                <div id="score-display" style="display:none;">
+                    <div class="score-ring">
+                        <span id="score-value">0%</span>
+                    </div>
+                    <p id="score-msg"></p>
+                </div>
+
+                <div style="text-align:center; margin-top:10px;">
+                    <button id="btn-score-check" class="primary-btn" style="display:none; width:auto; padding:10px 25px;">⭐ Chấm điểm</button>
+                </div>
+
+                <div class="writer-hint" id="practice-hint"></div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
