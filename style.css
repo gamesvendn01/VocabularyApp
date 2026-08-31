@@ -58,9 +58,31 @@ select:focus, input:focus {
     border-color: var(--accent);
 }
 
-.search-bar input {
+.search-wrapper {
+    position: relative;
     width: 100%;
     margin-bottom: 10px;
+}
+
+.search-wrapper input {
+    width: 100%;
+    padding-right: 30px; /* space for clear button */
+}
+
+.clear-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+    font-weight: bold;
+}
+
+.clear-btn:hover {
+    color: var(--text-main);
 }
 
 .filters {
@@ -120,11 +142,13 @@ main {
     padding: 15px;
     margin-bottom: 15px;
     border: 1px solid var(--border);
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 
 .vocab-item:hover {
     border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .vocab-header {
@@ -166,24 +190,40 @@ main {
     color: var(--text-main);
 }
 
-/* Ví dụ — có scroll nếu quá dài */
+/* Ví dụ — Smooth Accordion */
 .vocab-example {
     background-color: var(--card-bg-alt);
-    padding: 12px 15px;
     border-radius: 8px;
+    border-left: 3px solid var(--accent);
+    
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding: 0 15px;
+    margin-top: 0;
+    transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+}
+
+.vocab-example.expanded {
+    max-height: 400px;
+    opacity: 1;
+    padding: 12px 15px;
+    margin-top: 8px;
+}
+
+.vocab-example-content {
     font-size: 0.88rem;
     font-family: Consolas, "Courier New", monospace;
     word-break: break-word;
     line-height: 1.7;
     max-height: 280px;
     overflow-y: auto;
-    border-left: 3px solid var(--accent);
 }
 
-.vocab-example::-webkit-scrollbar {
+.vocab-example-content::-webkit-scrollbar {
     width: 5px;
 }
-.vocab-example::-webkit-scrollbar-thumb {
+.vocab-example-content::-webkit-scrollbar-thumb {
     background: var(--accent);
     border-radius: 4px;
 }
@@ -595,6 +635,200 @@ tr:last-child td {
     margin-top: 12px;
     font-size: 0.85rem;
     color: var(--text-muted);
+    text-align: center;
+}
+
+/* ═══════════════════════════════════════════
+   AI Course View
+═══════════════════════════════════════════ */
+.course-header {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+#course-day-select {
+    flex: 1;
+}
+
+#course-progress-badge {
+    color: var(--success);
+}
+
+.lesson-title {
+    color: var(--accent);
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.lesson-explanation {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 6px;
+    word-break: break-word;
+}
+
+.section-title {
+    color: var(--accent);
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-top: 18px;
+    margin-bottom: 10px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+}
+
+.pattern-item {
+    background-color: var(--card-bg);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    word-break: break-word;
+}
+
+.pattern-note {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
+
+.pattern-example {
+    margin-top: 6px;
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 0.88rem;
+    color: var(--text-main);
+}
+
+.common-item {
+    background-color: var(--card-bg);
+    border-left: 3px solid var(--success);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    word-break: break-word;
+}
+
+.common-situation {
+    color: var(--text-muted);
+    font-size: 0.83rem;
+    margin-top: 4px;
+}
+
+.quiz-cat-badge {
+    display: inline-block;
+    background-color: var(--accent);
+    color: #121212;
+    font-size: 0.72rem;
+    font-weight: bold;
+    padding: 1px 7px;
+    border-radius: 10px;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+.phase-badge {
+    display: inline-block;
+    background-color: var(--card-bg-alt);
+    border: 1px solid var(--success);
+    color: var(--success);
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 2px 10px;
+    border-radius: 12px;
+}
+
+.grammar-box {
+    background-color: var(--card-bg-alt);
+    border-left: 3px solid var(--success);
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-top: 14px;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    word-break: break-word;
+}
+
+.grammar-box h4 {
+    color: var(--success);
+    margin-bottom: 8px;
+}
+
+.quiz-q {
+    background-color: var(--card-bg-alt);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-top: 10px;
+    font-size: 0.92rem;
+}
+
+.quiz-opt {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-top: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: 0.15s;
+}
+
+.quiz-opt.selected {
+    border-color: var(--accent);
+}
+
+.quiz-opt.correct {
+    border-color: var(--success);
+    color: var(--success);
+}
+
+.quiz-opt.wrong {
+    border-color: #cf6679;
+    color: #cf6679;
+}
+
+.quiz-opt:disabled {
+    opacity: 0.85;
+    cursor: default;
+}
+
+.quiz-exp {
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    display: none;
+}
+
+.submit-btn {
+    width: 100%;
+    margin-top: 14px;
+    padding: 13px;
+    background-color: var(--success);
+    color: #121212;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.quiz-score-banner {
+    margin-top: 14px;
+    padding: 13px;
+    border-radius: 8px;
+    background-color: var(--accent);
+    color: #121212;
+    font-weight: bold;
     text-align: center;
 }
 
