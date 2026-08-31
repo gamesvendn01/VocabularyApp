@@ -17,7 +17,10 @@
             </select>
         </div>
         <div class="search-bar">
-            <input type="text" id="search-input" placeholder="Search word, meaning...">
+            <div class="search-wrapper">
+                <input type="text" id="search-input" placeholder="Search word, meaning...">
+                <span id="clear-search" class="clear-btn" style="display: none;">&times;</span>
+            </div>
         </div>
         <div class="filters">
             <select id="filter-topic"><option value="">All Topics</option></select>
@@ -27,6 +30,7 @@
         <div class="view-toggles">
             <button id="btn-list" class="active">List View</button>
             <button id="btn-flashcard">Flashcards</button>
+            <button id="btn-course">🎓 AI Course</button>
         </div>
     </header>
 
@@ -34,6 +38,7 @@
         <!-- List View -->
         <div id="list-view" class="view-container active">
             <div id="vocab-list"></div>
+            <div id="load-more-trigger" style="height: 20px; text-align: center; color: var(--text-muted); margin-bottom: 20px;"></div>
         </div>
 
         <!-- Flashcard View -->
@@ -66,6 +71,18 @@
             <div class="flashcard-actions">
                 <button id="btn-flip" class="flip-btn">Flip Card</button>
                 <button id="btn-practice-write" class="flip-btn write-btn">✏️ Luyện viết</button>
+            </div>
+        </div>
+        <!-- AI Course View -->
+        <div id="course-view" class="view-container">
+            <div class="course-header">
+                <select id="course-day-select"><option value="">—</option></select>
+                <span id="course-progress-badge" class="badge"></span>
+            </div>
+            <div id="course-content">
+                <p style='color:var(--text-muted);padding:20px;text-align:center;'>
+                    Chưa có khóa học AI. Mở app desktop → tab 🎓 Học Tập → 🤖 Sinh khóa học AI.
+                </p>
             </div>
         </div>
     </main>
@@ -111,6 +128,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="script.js"></script>
 </body>
